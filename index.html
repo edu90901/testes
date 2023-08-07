@@ -1,40 +1,48 @@
 <!DOCTYPE html>
 <html>
 
-<!DOCTYPE html>
-<html>
-
 <head>
-    <link rel="stylesheet" href="style.css" >
+    <link rel="stylesheet" href="style.css">
     <title>Adicionar Músicos e Bandas ao Firestore</title>
 </head>
 
 <body>
-    <h1>Adicionar Músicos e Bandas ao Firestore</h1>
-    <form id="meuFormulario">
-        <label for="musico">Nome do Músico:</label>
-        <input type="text" id="musico" name="musico" required>
-        <label for="banda">Nome da Banda:</label>
-        <input type="text" id="banda" name="banda" required>
-        <button type="submit">Salvar</button>
-    </form>
+    <div class="container">
+        <header>
+            <h1>Adicionar Músicos e Bandas ao Firestore</h1>
+        </header>
+        <form id="meuFormulario">
+            <label for="musico">Nome do Músico:</label>
+            <input type="text" id="musico" name="musico" required>
+            <label for="banda">Nome da Banda:</label>
+            <input type="text" id="banda" name="banda" required>
+            <label for="video">Link do Vídeo do YouTube:</label>
+            <input type="text" id="video" name="video" placeholder="https://www.youtube.com/watch?v=YOUR_VIDEO_ID">
+            <button type="submit">Salvar</button>
+        </form>
 
-    <h2>Músicos e Bandas Cadastrados:</h2>
-    <ul id="musicos-bandas-list"></ul>
+        <h2>Músicos e Bandas Cadastrados:</h2>
+        <ul id="musicos-bandas-list"></ul>
+
+        <h2>Vídeo do YouTube</h2>
+        <div class="video-container">
+            <div id="video-player"></div>
+            <button id="play-button">Reproduzir</button>
+        </div>
+    </div>
 
     <!-- Adicione a biblioteca do Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
-
+    <script src="script.js"></script>
     <script>
-        // Configurar as credenciais do Firebase
         var firebaseConfig = {
             apiKey: "AIzaSyBqcQrBPWd1zZAA0WHMfKOh-lEFhHxEkPY",
             authDomain: "db31-b6d67.firebaseapp.com",
             projectId: "db31-b6d67",
         };
-           // Inicializar o Firebase
-           firebase.initializeApp(firebaseConfig);
+       // Inicializar o Firebase
+firebase.initializeApp(firebaseConfig);
 
 // Referenciar o Firestore
 var db = firebase.firestore();
@@ -45,11 +53,13 @@ document.getElementById("meuFormulario").addEventListener("submit", function (ev
 
     var musico = document.getElementById("musico").value;
     var banda = document.getElementById("banda").value;
+    var videoLink = document.getElementById("video").value;
 
     // Salvar os dados na coleção "musicos-bandas"
     db.collection("musicos-bandas").add({
         musico: musico,
-        banda: banda
+        banda: banda,
+        videoLink: videoLink
     })
         .then(function (docRef) {
             console.log("Dados salvos com ID: ", docRef.id);
@@ -74,12 +84,11 @@ db.collection("musicos-bandas").onSnapshot(function(snapshot) {
         musicosBandasList.appendChild(li);
     });
 });
+
+// Reproduzir vídeo do YouTube
+var playButton = document.getElementById("play-button");
+var videoPlayer
 </script>
 </body>
 
 </html>
-
-
-
-
-
